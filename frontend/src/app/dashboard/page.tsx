@@ -18,10 +18,10 @@ export default function DashboardPage() {
       const token = localStorage.getItem('token');
       if (!token) return;
 
-      const pRes = await fetch('http://localhost:5000/api/projects?limit=1', {
+      const pRes = await fetch('https://sida-smoky.vercel.app/api/projects?limit=1', {
         headers: { Authorization: `Bearer ${token}` }
       });
-      const tRes = await fetch('http://localhost:5000/api/tasks?limit=1000', {
+      const tRes = await fetch('https://sida-smoky.vercel.app/api/tasks?limit=1000', {
         headers: { Authorization: `Bearer ${token}` }
       });
 

@@ -28,7 +28,7 @@ export default function TasksPage() {
 
   const fetchTasks = async () => {
     setLoading(true);
-    const res = await fetch(`http://localhost:5000/api/tasks?page=${page}`, { headers: getHeaders() });
+    const res = await fetch(`https://sida-smoky.vercel.app/api/tasks?page=${page}`, { headers: getHeaders() });
     if (res.ok) {
       const data = await res.json();
       setTasks(data.tasks);
@@ -38,7 +38,7 @@ export default function TasksPage() {
   };
 
   const fetchProjects = async () => {
-    const res = await fetch('http://localhost:5000/api/projects?limit=100', { headers: getHeaders() });
+    const res = await fetch('https://sida-smoky.vercel.app/api/projects?limit=100', { headers: getHeaders() });
     if (res.ok) {
       const data = await res.json();
       setProjects(data.projects);
@@ -60,18 +60,18 @@ export default function TasksPage() {
     if (file) {
       const formDataUpload = new FormData();
       formDataUpload.append('file', file);
-      const resUpload = await fetch('http://localhost:5000/api/upload', {
+      const resUpload = await fetch('https://sida-smoky.vercel.app/api/upload', {
         method: 'POST',
         headers: getHeaders(true),
         body: formDataUpload,
       });
       if (resUpload.ok) {
         const dataUpload = await resUpload.json();
-        attachmentUrl = `http://localhost:5000${dataUpload.url}`;
+        attachmentUrl = `https://sida-smoky.vercel.app${dataUpload.url}`;
       }
     }
 
-    await fetch('http://localhost:5000/api/tasks', {
+    await fetch('https://sida-smoky.vercel.app/api/tasks', {
       method: 'POST',
       headers: getHeaders(),
       body: JSON.stringify({ ...formData, attachmentUrl }),
@@ -85,7 +85,7 @@ export default function TasksPage() {
 
   const handleDelete = async (id: string) => {
     if (confirm('Are you sure you want to delete this task?')) {
-      await fetch(`http://localhost:5000/api/tasks/${id}`, { 
+      await fetch(`https://sida-smoky.vercel.app/api/tasks/${id}`, { 
         method: 'DELETE',
         headers: getHeaders() 
       });

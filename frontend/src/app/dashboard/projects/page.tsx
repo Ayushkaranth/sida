@@ -28,7 +28,7 @@ export default function ProjectsPage() {
 
   const fetchProjects = async () => {
     setLoading(true);
-    const res = await fetch(`http://localhost:5000/api/projects?search=${search}&page=${page}`, {
+    const res = await fetch(`https://sida-smoky.vercel.app/api/projects?search=${search}&page=${page}`, {
       headers: getHeaders()
     });
     if (res.ok) {
@@ -45,7 +45,7 @@ export default function ProjectsPage() {
 
   const handleCreate = async (e: React.FormEvent) => {
     e.preventDefault();
-    await fetch('http://localhost:5000/api/projects', {
+    await fetch('https://sida-smoky.vercel.app/api/projects', {
       method: 'POST',
       headers: getHeaders(),
       body: JSON.stringify(formData),
@@ -57,7 +57,7 @@ export default function ProjectsPage() {
 
   const handleDelete = async (id: string) => {
     if (confirm('Are you sure you want to delete this project?')) {
-      await fetch(`http://localhost:5000/api/projects/${id}`, { 
+      await fetch(`https://sida-smoky.vercel.app/api/projects/${id}`, { 
         method: 'DELETE',
         headers: getHeaders()
       });
