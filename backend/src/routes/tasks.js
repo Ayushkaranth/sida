@@ -1,11 +1,13 @@
 const express = require('express');
 const { authenticate } = require('../middleware/auth');
 const Task = require('../models/Task');
+const connectDB = require('../lib/db');
 
 const router = express.Router();
 
 router.get('/', authenticate, async (req, res) => {
   try {
+    await connectDB();
     const { page = '1', projectId } = req.query;
     const limit = 10;
     const skip = (parseInt(page) - 1) * limit;
@@ -24,6 +26,7 @@ router.get('/', authenticate, async (req, res) => {
 
 router.post('/', authenticate, async (req, res) => {
   try {
+    await connectDB();
     const task = await Task.create(req.body);
     res.status(201).json(task);
   } catch (err) {
@@ -33,6 +36,7 @@ router.post('/', authenticate, async (req, res) => {
 
 router.delete('/:id', authenticate, async (req, res) => {
   try {
+    await connectDB();
     await Task.findByIdAndDelete(req.params.id);
     res.json({ message: 'Deleted' });
   } catch (err) {

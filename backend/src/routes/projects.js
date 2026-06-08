@@ -1,11 +1,13 @@
 const express = require('express');
 const { authenticate } = require('../middleware/auth');
 const Project = require('../models/Project');
+const connectDB = require('../lib/db');
 
 const router = express.Router();
 
 router.get('/', authenticate, async (req, res) => {
   try {
+    await connectDB();
     const { search, page = '1' } = req.query;
     const limit = 10;
     const skip = (parseInt(page) - 1) * limit;
@@ -25,6 +27,7 @@ router.get('/', authenticate, async (req, res) => {
 
 router.post('/', authenticate, async (req, res) => {
   try {
+    await connectDB();
     const project = await Project.create({ ...req.body, createdBy: req.user.id });
     res.status(201).json(project);
   } catch (err) {
@@ -34,6 +37,7 @@ router.post('/', authenticate, async (req, res) => {
 
 router.delete('/:id', authenticate, async (req, res) => {
   try {
+    await connectDB();
     const project = await Project.findById(req.params.id);
     if (!project) return res.status(404).json({ message: 'Not found' });
     if (req.user.role !== 'admin' && project.createdBy.toString() !== req.user.id) return res.status(403).json({ message: 'Forbidden' });
